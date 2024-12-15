@@ -12,6 +12,7 @@ frozenlist==1.4.1
 google-auth==2.34.0
 google-auth-oauthlib==1.0.0
 grpcio==1.66.1
+gunicorn==23.0.0
 h11==0.14.0
 httptools==0.6.1
 idna==3.8
