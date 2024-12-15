@@ -9,6 +9,6 @@ services:
       - key: FLASK_ENV
         value: production
       - key: PYTHON_VERSION
-        value: "3.10"
+        value: "3.11"
     autoscale: true
     healthCheckPath: /  # Optional, path to check if your app is running
