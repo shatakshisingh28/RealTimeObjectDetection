@@ -4,101 +4,184 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Real-Time Object Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         /* Global Styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #f0f4f8;
+        body, html {
+            font-family: 'Poppins', sans-serif;
+            background: #10002b; /* Dark base color */
+            color: #e0aaff; /* Light text color */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #c77dff; /* Accent color */
+            text-align: center;
+            margin-top: 40px;
+            letter-spacing: 1px;
+        }
+
+        /* Navbar Styles */
+        nav {
+            background-color: #240046; /* Navbar background */
+            color: #e0aaff; /* Navbar text color */
+            padding: 15px 20px;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        nav .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
             margin: 0;
             padding: 0;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: bold;
+        nav ul li {
+            display: inline;
+            position: relative;
         }
 
-        /* Container for video and detection result */
+        nav ul li a {
+            color: #e0aaff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #3c096c; /* Dark hover effect */
+        }
+
+        /* Dropdown Styles */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #240046;
+            min-width: 160px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            border-radius: 6px;
+            margin-top: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .dropdown-content a {
+            color: #e0aaff;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 1rem;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #5a189a; /* Highlighted dropdown item */
+        }
+
+        nav ul li:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Main Content Styles */
         .container {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             align-items: center;
-            width: 80%;
-            max-width: 1200px;
             gap: 30px;
-            margin-top: 20px;
+            margin: 40px auto;
+            padding: 20px;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         /* Video Feed Section */
         #video-container {
-            background: #ffffff;
-            padding: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #240046; /* Card background */
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             border-radius: 12px;
-            width: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            width: 48%;
+            text-align: center;
+            box-sizing: border-box;
         }
 
         #video-feed {
             border-radius: 10px;
-            border: 4px solid #0d6efd;
+            border: 4px solid #c77dff; /* Video border */
             width: 100%;
             height: auto;
         }
 
         /* Detection Result Section */
         #detection-container {
-            background: #ffffff;
-            padding: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #240046;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             border-radius: 12px;
-            width: 45%;
+            width: 48%;
             text-align: center;
+            box-sizing: border-box;
         }
 
         #detection-container h3 {
-            font-size: 1.5rem;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        #detection-result {
-            margin-top: 15px;
-            border-radius: 10px;
-            overflow: hidden;
+            font-size: 1.6rem;
+            color: #e0aaff;
+            margin-bottom: 20px;
         }
 
         #detection-result img {
             width: 100%;
             height: auto;
             border-radius: 10px;
-            border: 2px solid #0d6efd;
+            border: 2px solid #c77dff;
         }
 
         /* Button Styles */
         .button {
-            background-color: #0d6efd;
+            background-color: #7b2cbf;
             color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            margin-top: 20px;
+            margin: 10px 5px;
+            font-size: 1rem;
         }
 
         .button:hover {
-            background-color: #0056b3;
+            background-color: #9d4edd; /* Button hover */
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #240046;
+            color: #e0aaff;
+            text-align: center;
+            padding: 15px 20px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1rem;
         }
 
         /* Media Queries for responsiveness */
@@ -115,16 +198,56 @@
     </style>
 </head>
 <body>
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">Object Detection</div>
+        <ul>
+            <li><a href="#" id="home-link">Home</a></li>
+            <li>
+                <a href="#">Detections</a>
+                <div class="dropdown-content">
+                    <a href="#">Airplane</a>
+                    <a href="#">Bear</a>
+                    <a href="#">Bench</a>
+                    <a href="#">Bicycle</a>
+                    <a href="#">Boat</a>
+                    <a href="#">Bus</a>
+                    <a href="#">Car</a>
+                    <a href="#">Cat</a>
+                    <a href="#">Cow</a>
+                    <a href="#">Dog</a>
+                    <a href="#">Elephant</a>
+                    <a href="#">Fire hydrant</a>
+                    <a href="#">Giraffe</a>
+                    <a href="#">Horse</a>
+                    <a href="#">Motorcycle</a>
+                    <a href="#">Person</a>
+                    <a href="#">Parking meter</a>
+                    <a href="#">Sheep</a>
+                    <a href="#">Stop sign</a>
+                    <a href="#">Traffic light</a>
+                    <a href="#">Train</a>
+                    <a href="#">Truck</a>
+                    <a href="#">Zebra</a>
+                </div>
+            </li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
     <h1>Real-Time Object Detection</h1>
+
+    <!-- Main Content -->
     <div class="container">
         <!-- Video Feed Section -->
         <div id="video-container">
+            <h3>Real-Time Feed:</h3>
             <video id="video-feed" width="640" height="480" autoplay></video>
         </div>
 
         <!-- Detection Result Section -->
         <div id="detection-container">
-            <h3>Detection Result:</h3>
+            <h3>Detected Objects:</h3>
             <div id="detection-result">
                 <img id="result-image" src="" alt="Detection result">
             </div>
@@ -133,7 +256,18 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Object Detection App. All Rights Reserved.</p>
+    </footer>
+
     <script>
+        // Refresh the page when "Home" is clicked
+        document.getElementById('home-link').addEventListener('click', (e) => {
+            e.preventDefault();  // Prevent default link behavior
+            window.location.reload();  // Reload the page
+        });
+
         const videoElement = document.getElementById('video-feed');
         const resultImage = document.getElementById('result-image');
         let videoStream = null;
@@ -149,7 +283,7 @@
         function stopWebcam() {
             if (videoStream) {
                 const tracks = videoStream.getTracks();
-                tracks.forEach(track => track.stop());  // Stop each track
+                tracks.forEach(track => track.stop());
                 videoStream = null;
                 videoElement.srcObject = null;
                 resultImage.src = '';  // Clear the detection result
@@ -201,6 +335,18 @@
             }
             return new Blob([ab], { type: mimeString });
         }
+
+        // Sort the features dropdown items alphabetically
+        window.onload = function() {
+            const dropdownContent = document.querySelector('.dropdown-content');
+            const links = Array.from(dropdownContent.getElementsByTagName('a'));
+
+            // Sort the list items alphabetically
+            links.sort((a, b) => a.textContent.localeCompare(b.textContent));
+
+            // Append the sorted items back to the dropdown
+            links.forEach(link => dropdownContent.appendChild(link));
+        };
     </script>
 </body>
 </html>
